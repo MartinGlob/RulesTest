@@ -1,0 +1,41 @@
+[
+  {
+    "WorkflowName": "PersonValidation",
+    "Rules": [
+      {
+        "RuleName": "FirstNameValidation",
+        "SuccessEvent": "10",
+        "ErrorMessage": "First name is empty",
+        "ErrorType": "Error",
+        "RuleExpressionType": "LambdaExpression",
+        "Expression": "!string.IsNullOrEmpty(input1.FirstName)"
+      },
+      {
+        "RuleName": "LastNameValidation",
+        "SuccessEvent": "11",
+        "ErrorMessage": "Last name is empty",
+        "ErrorType": "Error",
+        "RuleExpressionType": "LambdaExpression",
+        "Expression": "!string.IsNullOrEmpty(input1.LastName)"
+      },
+      {
+        "RuleName": "AgeValidation",
+        "SuccessEvent": "12",
+        "ErrorMessage": "Person is too young",
+        "ErrorType": "Error",
+        "RuleExpressionType": "LambdaExpression",
+        "Expression": "Utils.MinimumAgeIs(input1.DateOfBirth,18) == true"
+      },
+      {
+        "RuleName": "CountryValidation",
+        "SuccessEvent": "13",
+        "ErrorMessage": "Country not allowed",
+        "ErrorType": "Error",
+        "RuleExpressionType": "LambdaExpression",
+        "Expression": "Utils.CheckContains(input1.country, \"dk,no,se,fi\") == true"
+      }
+    ]
+  }
+]
+
+//"Expression": "Utils.CheckContains(input1.country, \"india,usa,canada,France\") == true"
