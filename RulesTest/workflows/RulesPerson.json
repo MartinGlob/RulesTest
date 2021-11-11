@@ -24,7 +24,7 @@
         "ErrorMessage": "Person is too young",
         "ErrorType": "Error",
         "RuleExpressionType": "LambdaExpression",
-        "Expression": "Utils.MinimumAgeIs(input1.DateOfBirth,18) == true"
+        "Expression": "Utils.MinimumAgeIs(input1.DateOfBirth,input2.MinimumAge) == true"
       },
       {
         "RuleName": "CountryValidation",
@@ -32,8 +32,17 @@
         "ErrorMessage": "Country not allowed",
         "ErrorType": "Error",
         "RuleExpressionType": "LambdaExpression",
-        "Expression": "Utils.CheckContains(input1.country, \"dk,no,se,fi\") == true"
+        "Expression": "Utils.CheckContains(input1.country, input2.CountryList) == true"
+      },
+      {
+        "RuleName": "Test",
+        "SuccessEvent": "14",
+        "ErrorMessage": "Test ?",
+        "ErrorType": "Error",
+        "RuleExpressionType": "LambdaExpression",
+        "Expression": "input1.country.Length"
       }
+
     ]
   }
 ]

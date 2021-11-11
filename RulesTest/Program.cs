@@ -26,49 +26,41 @@ namespace RulesTest
 
             var rulesEngine = new RulesEngine.RulesEngine(workflow.ToArray(), null, reSettingsWithCustomTypes);
 
-            //var inputs = new object[]
-            //{
-            //    input1
-            //};
+            var parameters = new
+            {
+                CountryList = "dk,no,se,fi",
+                MinimumAge = 18
+            };
 
-            List<RuleResultTree> resultList = null;
-
-            // will fail as too young
-            var input1 = new Person
+            var person = new Person
             {
                 FirstName = "Bob",
                 LastName = "Hope",
-                DateOfBirth = new DateTime(2010, 1, 1),
+                DateOfBirth = new DateTime(1970, 1, 1),
                 Country = "dk"
             };
 
-            resultList = rulesEngine.ExecuteAllRulesAsync("PersonValidation", new object[]
-            {
-                input1
-            }).Result;
+
+            var resultList = rulesEngine.ExecuteAllRulesAsync(
+                "PersonValidation",
+                new RuleParameter[]
+                {
+                    new RuleParameter("input1",person),
+                    new RuleParameter("input2",parameters)
+                }
+            ).Result;
+
+
 
             PrintResults(resultList);
 
-            input1 = new Person
-            {
-                FirstName = "Dean",
-                LastName = "Martin",
-                DateOfBirth = new DateTime(1980, 1, 1),
-                Country = "de"
-            };
-
-            resultList = rulesEngine.ExecuteAllRulesAsync("PersonValidation", new object[]
-            {
-                input1
-            }).Result;
-
-            PrintResults(resultList);
 
             Console.ReadLine();
         }
 
         private static void PrintResults(List<RuleResultTree> resultList)
         {
+
             foreach (var r in resultList)
             {
                 Console.WriteLine($"{r.Rule.RuleName} : {r.IsSuccess} : {r.ExceptionMessage}");
